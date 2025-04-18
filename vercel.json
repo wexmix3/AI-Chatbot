@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "regions": ["iad1"],
+  "routes": [
+    {
+      "src": "/api/scheduledPicks",
+      "headers": {
+        "Cache-Control": "no-cache, no-store, must-revalidate"
+      }
+    },
+    {
+      "src": "/api/chatbot/(.*)",
+      "headers": {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,OPTIONS,PATCH,DELETE,POST,PUT",
+        "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization"
+      }
+    },
+    {
+      "src": "/widget.js",
+      "dest": "/api/chatbot/widget"
+    }
+  ],
+  "env": {
+    "NEXTAUTH_URL": "${NEXTAUTH_URL}",
+    "NEXTAUTH_SECRET": "${NEXTAUTH_SECRET}",
+    "TWITTER_API_KEY": "${TWITTER_API_KEY}",
+    "TWITTER_API_SECRET": "${TWITTER_API_SECRET}",
+    "TWITTER_ACCESS_TOKEN": "${TWITTER_ACCESS_TOKEN}",
+    "TWITTER_ACCESS_SECRET": "${TWITTER_ACCESS_SECRET}",
+    "CRON_API_KEY": "${CRON_API_KEY}",
+    "DB_HOST": "${DB_HOST}",
+    "DB_PORT": "${DB_PORT}",
+    "DB_NAME": "${DB_NAME}",
+    "DB_USER": "${DB_USER}",
+    "DB_PASSWORD": "${DB_PASSWORD}",
+    "API_SPORTS_KEY": "${API_SPORTS_KEY}",
+    "OPENAI_API_KEY": "${OPENAI_API_KEY}",
+    "NODE_ENV": "production"
+  },
+  "crons": [{
+    "path": "/api/scheduledPicks?apiKey=${CRON_API_KEY}",
+    "schedule": "0 9 * * *"
+  }]
+}
